@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/cache 
+                        http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+                        http://www.springframework.org/schema/aop 
+                        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <bean id="concurrentMapFibonacciService" class="com.kilo.driver.ConcurrentMapFibonacciServiceImpl">
+    </bean>
+
+    <bean id="ehcacheFibonacciService" class="com.kilo.driver.EhcacheFibonacciServiceImpl">
+    </bean>
+    <bean id="simpletonFibonacciService" class="com.kilo.driver.SimpletonFibonacciServiceImpl">
+    </bean>
+
+    <context:load-time-weaver/>
+
+    <cache:annotation-driven cache-manager="compositeCacheManager" mode="aspectj" />
+        
+    <bean id="concurrentMapFibonacci"
+        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" />
+    <bean id="concurrentMapCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <ref bean="concurrentMapFibonacci" />
+            </set>
+        </property>
+    </bean>
+
+    <bean id="fibonacciEhcache"
+        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="ehcache.xml" />
+    </bean>
+    <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="fibonacciEhcache"/>
+    </bean>
+
+    <bean id="compositeCacheManager" class="org.springframework.cache.support.CompositeCacheManager">
+        <property name="cacheManagers">
+            <array>
+                <ref bean="ehcacheManager" />
+                <ref bean="concurrentMapCacheManager" />
+            </array>
+        </property>
+    </bean>
+    
+    <!-- Using cache:advice to intercept external calls -->
+    <bean id="externalFibonacciService" class="com.kilo.external.ExternalFibonacciServiceImpl">
+    </bean>
+
+    <bean id="externalConcurrentMapFibonacci"
+        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" />
+    <bean id="externalConcurrentMapFibonacciCacheManager" 
+        class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <ref bean="externalConcurrentMapFibonacci" />
+            </set>
+        </property>
+    </bean>
+    <cache:advice id="externalFibonacciCacheAdvice" cache-manager="externalConcurrentMapFibonacciCacheManager">
+        <cache:caching>
+            <cache:cacheable method="*" cache="externalConcurrentMapFibonacci" />
+        </cache:caching>
+    </cache:advice>
+    
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="externalFibonacciCacheOperation" expression="execution(* com.kilo.external..*.*(..))"/>
+        <aop:advisor advice-ref="externalFibonacciCacheAdvice" pointcut-ref="externalFibonacciCacheOperation"/>
+    </aop:config>
+
+</beans>
