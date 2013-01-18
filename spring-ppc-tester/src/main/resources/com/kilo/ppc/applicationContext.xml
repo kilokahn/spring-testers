@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    <bean id="ppc1"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>file:///tmp/p1.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="order" value="10000" />
+    </bean>
+
+    <bean id="ppc2"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>file:///tmp/p2.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="order" value="10001" />
+    </bean>
+    
+    <bean id="overallPPC"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="20000" />
+    </bean>
+
+    <bean id="simpleBean" class="com.kilo.SimpleBean">
+        <property name="property1" value="${com.kilo.property1}" />
+        <property name="property2" value="${com.kilo.property2}" />
+        <property name="property3" value="${com.kilo.property3}" />
+        <property name="property4" value="${com.kilo.property4}" />
+    </bean>
+
+</beans>
