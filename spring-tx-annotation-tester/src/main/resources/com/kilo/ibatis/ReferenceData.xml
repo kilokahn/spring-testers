@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ReferenceData">
+
+	<select id="putReferenceData" resultClass="java.util.Date">
+		INSERT INTO reference_date VALUES (GETUTCDATE())
+        
+        SELECT GETUTCDATE()
+	</select>
+
+</sqlMap>
