@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StopWatch;
 
+import com.kilo.external.ExternalFibonacciServiceImpl;
+
 public class SpringCacheTesterDriver {
 
     private static Logger LOG = Logger.getLogger(SpringCacheTesterDriver.class);
@@ -28,6 +30,14 @@ public class SpringCacheTesterDriver {
         doWorkWithFiboService(concurrentMapFibonacciService);
         doWorkWithFiboService(ehcacheFibonacciService);
         doWorkWithFiboService(externalFibonacciService);
+
+        long fibonacci = ((ExternalFibonacciServiceImpl) externalFibonacciService)
+                .getFibonacci(45);
+        LOG.info("Fibonacci number is " + fibonacci);
+        long nonFibonacci = ((ExternalFibonacciServiceImpl) externalFibonacciService)
+                .getNonFibonacci(45);
+        LOG.info("Non-fibonacci number is " + nonFibonacci);
+
         System.exit(1);
     }
 

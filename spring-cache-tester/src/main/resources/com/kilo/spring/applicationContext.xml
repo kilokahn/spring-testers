@@ -65,7 +65,11 @@
             </set>
         </property>
     </bean>
-    <cache:advice id="externalFibonacciCacheAdvice" cache-manager="externalConcurrentMapFibonacciCacheManager">
+
+    <bean id="methodAwareCacheKeyGenerator" class="org.springframework.cache.interceptor.MethodAwareCacheKeyGenerator" />
+
+    <cache:advice id="externalFibonacciCacheAdvice" cache-manager="externalConcurrentMapFibonacciCacheManager"
+        key-generator="methodAwareCacheKeyGenerator">
         <cache:caching>
             <cache:cacheable method="*" cache="externalConcurrentMapFibonacci" />
         </cache:caching>

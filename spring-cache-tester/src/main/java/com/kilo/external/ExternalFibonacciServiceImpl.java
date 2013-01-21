@@ -22,6 +22,16 @@ public class ExternalFibonacciServiceImpl implements FibonacciService {
         return fiboMinusOne + fiboMinusTwo;
     }
 
+    /**
+     * Constantly returns -1
+     * 
+     * @param index
+     * @return
+     */
+    public long getNonFibonacci(int index) {
+        return -1;
+    }
+
     @Override
     public void flushFibonacciCache() {
         // No-op
