@@ -8,7 +8,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-public class MyComplexObject {
+public class SpecialObject {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -18,19 +18,18 @@ public class MyComplexObject {
 
     private Date date;
 
-    public MyComplexObject() {
+    public SpecialObject() {
     }
 
-    public MyComplexObject(String name, Integer id, Date date) {
+    public SpecialObject(String name, Integer id, Date date) {
         this.name = name;
         this.id = id;
         this.date = date;
     }
 
-    public MyComplexObject(String json) throws JsonParseException,
+    public SpecialObject(String json) throws JsonParseException,
             JsonMappingException, IOException {
-        MyComplexObject that = objectMapper.readValue(json,
-                MyComplexObject.class);
+        SpecialObject that = objectMapper.readValue(json, SpecialObject.class);
         this.name = that.name;
         this.id = that.id;
         this.date = that.date;
@@ -46,5 +45,9 @@ public class MyComplexObject {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getFoo() {
+        return "foo";
     }
 }

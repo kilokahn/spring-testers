@@ -4,7 +4,7 @@ package com.kilo;
 import java.util.Date;
 import java.util.List;
 
-public interface MyService {
+public interface SpecialService {
 
     String getSomeText();
 
@@ -18,14 +18,14 @@ public interface MyService {
 
     List<Integer> getSomeStringsWithIntInputs(List<Integer> ids);
 
-    List<MyComplexObject> getSomeComplexObjectsWithIntInputs(List<Integer> ids);
+    List<SpecialObject> getSomeComplexObjectsWithIntInputs(List<Integer> ids);
 
-    List<MyComplexObject> getSomeComplexObjectsWithMultipleInputs(String name,
+    List<SpecialObject> getSomeComplexObjectsWithMultipleInputs(String name,
             Integer value);
 
-    List<MyComplexObject> getSomeComplexObjectsWithDateInput(
+    List<SpecialObject> getSomeComplexObjectsWithDateInput(
             List<Integer> ids, Date date);
 
-    List<MyComplexObject> getSomeComplexObjectsWithComplexInput(
-            List<Integer> ids, Date date, MyComplexObject input);
+    List<SpecialObject> getSomeComplexObjectsWithComplexInput(
+            List<Integer> ids, Date date, SpecialObject input);
 }

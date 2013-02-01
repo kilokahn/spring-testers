@@ -12,8 +12,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
 @Produces("application/json")
-public class MyServiceImpl implements MyService {
+@CrossOriginResourceSharing(allowAllOrigins = true, allowCredentials = true, maxAge = 6000, allowHeaders = {
+        "Content-Type", "X-Requested-With" }, exposeHeaders = { "Content-Type",
+        "X-Requested-With" })
+public class SpecialServiceImpl implements SpecialService {
 
     @GET
     @Path("/someText/")
@@ -81,14 +86,14 @@ public class MyServiceImpl implements MyService {
     @GET
     @Path("/someComplexObjectsWithIntInputs/")
     @Override
-    public List<MyComplexObject> getSomeComplexObjectsWithIntInputs(
+    public List<SpecialObject> getSomeComplexObjectsWithIntInputs(
             @QueryParam("ids") List<Integer> ids) {
-        List<MyComplexObject> complexObjects = new ArrayList<>();
-        complexObjects.add(new MyComplexObject("kilo", 1, new Date()));
-        complexObjects.add(new MyComplexObject("kahn", 2, new Date()));
+        List<SpecialObject> complexObjects = new ArrayList<>();
+        complexObjects.add(new SpecialObject("kilo", 1, new Date()));
+        complexObjects.add(new SpecialObject("kahn", 2, new Date()));
         for (Integer id : ids) {
-            complexObjects.add(new MyComplexObject(id.toString(), id,
-                    new Date()));
+            complexObjects
+                    .add(new SpecialObject(id.toString(), id, new Date()));
         }
         return complexObjects;
     }
@@ -96,12 +101,12 @@ public class MyServiceImpl implements MyService {
     @GET
     @Path("/someComplexObjectsWithMultipleInputs/")
     @Override
-    public List<MyComplexObject> getSomeComplexObjectsWithMultipleInputs(
+    public List<SpecialObject> getSomeComplexObjectsWithMultipleInputs(
             @QueryParam("name") String name, @QueryParam("value") Integer value) {
-        List<MyComplexObject> complexObjects = new ArrayList<>();
-        complexObjects.add(new MyComplexObject("kilo", 1, new Date()));
-        complexObjects.add(new MyComplexObject("kahn", 2, new Date()));
-        complexObjects.add(new MyComplexObject(name, value, new Date()));
+        List<SpecialObject> complexObjects = new ArrayList<>();
+        complexObjects.add(new SpecialObject("kilo", 1, new Date()));
+        complexObjects.add(new SpecialObject("kahn", 2, new Date()));
+        complexObjects.add(new SpecialObject(name, value, new Date()));
         return complexObjects;
 
     }
@@ -109,13 +114,13 @@ public class MyServiceImpl implements MyService {
     @GET
     @Path("/getSomeComplexObjectsWithDateInput/")
     @Override
-    public List<MyComplexObject> getSomeComplexObjectsWithDateInput(
+    public List<SpecialObject> getSomeComplexObjectsWithDateInput(
             @QueryParam("ids") List<Integer> ids, @QueryParam("date") Date date) {
-        List<MyComplexObject> complexObjects = new ArrayList<>();
-        complexObjects.add(new MyComplexObject("kilo", 1, date));
-        complexObjects.add(new MyComplexObject("kahn", 2, date));
+        List<SpecialObject> complexObjects = new ArrayList<>();
+        complexObjects.add(new SpecialObject("kilo", 1, date));
+        complexObjects.add(new SpecialObject("kahn", 2, date));
         for (Integer id : ids) {
-            complexObjects.add(new MyComplexObject(id.toString(), id, date));
+            complexObjects.add(new SpecialObject(id.toString(), id, date));
         }
         return complexObjects;
     }
@@ -124,15 +129,15 @@ public class MyServiceImpl implements MyService {
     @Path("/getSomeComplexObjectsWithComplexInput/")
     @Override
     @Consumes("application/json")
-    public List<MyComplexObject> getSomeComplexObjectsWithComplexInput(
+    public List<SpecialObject> getSomeComplexObjectsWithComplexInput(
             @QueryParam("ids") List<Integer> ids,
             @QueryParam("date") Date date,
-            @QueryParam("input") MyComplexObject input) {
-        List<MyComplexObject> complexObjects = new ArrayList<>();
-        complexObjects.add(new MyComplexObject("kilo", 1, date));
-        complexObjects.add(new MyComplexObject("kahn", 2, date));
+            @QueryParam("input") SpecialObject input) {
+        List<SpecialObject> complexObjects = new ArrayList<>();
+        complexObjects.add(new SpecialObject("kilo", 1, date));
+        complexObjects.add(new SpecialObject("kahn", 2, date));
         for (Integer id : ids) {
-            complexObjects.add(new MyComplexObject(id.toString(), id, date));
+            complexObjects.add(new SpecialObject(id.toString(), id, date));
         }
         complexObjects.add(input);
         return complexObjects;
