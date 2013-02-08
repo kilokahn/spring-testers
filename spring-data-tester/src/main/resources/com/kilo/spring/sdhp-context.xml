@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:hdp="http://www.springframework.org/schema/hadoop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/hadoop 
+        http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+
+    <hdp:configuration>
+        fs.default.name=hdfs://localhost:9000
+    </hdp:configuration>
+
+    <hdp:job id="mr-job" input-path="/user/baigm/input/" output-path="/user/baigm/output1/"
+        mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
+        reducer="org.apache.hadoop.examples.WordCount.IntSumReducer" />
+
+</beans>
