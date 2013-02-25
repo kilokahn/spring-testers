@@ -58,7 +58,7 @@
     <bean id="externalConcurrentMapFibonacci"
         class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" />
     <bean id="externalConcurrentMapFibonacciCacheManager" 
-        class="org.springframework.cache.suppo<aoprt.SimpleCacheManager">
+        class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
             <set>
                 <ref bean="externalConcurrentMapFibonacci" />
