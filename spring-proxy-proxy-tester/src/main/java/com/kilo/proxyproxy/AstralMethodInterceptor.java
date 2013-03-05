@@ -13,9 +13,8 @@ public class AstralMethodInterceptor {
     private static final Logger LOG = LoggerFactory
             .getLogger(AstralMethodInterceptor.class);
 
-    @Around("@annotation(astralMethod)")
-    public void handleMethod(ProceedingJoinPoint pjp, AstralMethod astralMethod)
-            throws Throwable {
+    @Around("(execution(* com.kilo.proxyproxy.*.*(..)) || execution(* net.webservicex.*.*(..)) )")
+    public void handleMethod(ProceedingJoinPoint pjp) throws Throwable {
         LOG.info("I encountered astral method in "
                 + pjp.getThis().getClass().getCanonicalName());
         pjp.proceed();
