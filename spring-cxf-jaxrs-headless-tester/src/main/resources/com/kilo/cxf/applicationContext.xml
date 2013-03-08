@@ -30,6 +30,9 @@
                 </bean>
                 <bean class="com.kilo.ProgressiveDateHandler"/>
         </jaxrs:providers>
+        <jaxrs:outInterceptors>
+            <bean class="org.apache.cxf.transport.common.gzip.GZIPOutInterceptor" />
+        </jaxrs:outInterceptors>
     </jaxrs:server>
 
     <bean id="jacksonMapper" class="org.codehaus.jackson.map.ObjectMapper">
