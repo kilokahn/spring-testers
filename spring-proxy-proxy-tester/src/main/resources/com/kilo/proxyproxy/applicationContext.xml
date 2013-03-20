@@ -17,10 +17,8 @@
     <bean id="specialService" class="com.kilo.proxyproxy.SpecialServiceImpl">
     </bean>
 
-    <!-- 
     <bean id="astralMethodInterceptor" class="com.kilo.proxyproxy.AstralMethodInterceptor">
     </bean>
-     -->
     <!-- 
     <bean id="stellarMethodInterceptor" class="com.kilo.proxyproxy.StellarMethodInterceptor">
     </bean>
