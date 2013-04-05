@@ -26,6 +26,14 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="corsFilter" />
+            <!--
+            Handling JAXB without XmlRootElement annotations 
+            http://cxf.apache.org/docs/jax-rs-data-bindings.html#JAX-RSDataBindings-HandlingJAXBbeanswithoutXmlRootElementannotations
+             -->
+            <bean id="jaxbProvider"
+                class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
+                <property name="marshallAsJaxbElement" value="true" />
+            </bean>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
                 <property name="mapper" ref="jacksonMapper" />
             </bean>
