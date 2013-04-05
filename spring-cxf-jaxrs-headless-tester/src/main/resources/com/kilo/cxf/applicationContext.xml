@@ -29,6 +29,7 @@
             <!--
             Handling JAXB without XmlRootElement annotations 
             http://cxf.apache.org/docs/jax-rs-data-bindings.html#JAX-RSDataBindings-HandlingJAXBbeanswithoutXmlRootElementannotations
+            Also from jackson is available org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider
              -->
             <bean id="jaxbProvider"
                 class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
