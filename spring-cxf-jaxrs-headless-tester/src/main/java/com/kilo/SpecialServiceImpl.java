@@ -37,7 +37,7 @@ public class SpecialServiceImpl implements SpecialService {
     @GET
     @Path("/someStrings/")
     @Override
-    @Produces("application/xml")
+//    @Produces("application/xml")
     public List<String> getSomeStrings() {
         List<String> strings = new ArrayList<>();
         strings.add("kilo");

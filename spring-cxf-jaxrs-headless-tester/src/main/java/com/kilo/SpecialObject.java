@@ -50,4 +50,14 @@ public class SpecialObject {
     public String getFoo() {
         return "foo";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "SpecialObject [name=" + name + ", id=" + id + ", date=" + date
+                + "]";
+    }
+
 }
