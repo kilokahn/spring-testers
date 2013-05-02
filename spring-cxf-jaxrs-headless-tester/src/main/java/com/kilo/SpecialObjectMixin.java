@@ -10,4 +10,7 @@ public interface SpecialObjectMixin {
 
     @JsonProperty
     String getName();
+
+    @JsonProperty
+    Integer getId();
 }

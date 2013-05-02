@@ -6,11 +6,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.Provider;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.cxf.jaxrs.ext.ParameterHandler;
 
-public class ProgressiveDateHandler implements ParameterHandler<Date> {
+@Provider
+public class ProgressiveDateHandler implements ParameterHandler<Date>,
+        ParamConverter<Date> {
 
     private enum DatePattern {
         HYPHEN_DATE_PATTERN("yyyy-MM-dd"),
@@ -21,7 +27,8 @@ public class ProgressiveDateHandler implements ParameterHandler<Date> {
         SLASH_DATE_PATTERN_US("MM/dd/yyyy"),
         SLASH_DATE_TIME_ZONE_PATTERN_US("MM/dd/yyyy HH:mm:ss z"),
         NODELIM_DATE_PATTERN("yyyyMMdd"),
-        NODELIM_DATE_TIME_PATTERN("yyyyMMdd HH:mm:ss.SSS");
+        NODELIM_DATE_TIME_PATTERN("yyyyMMdd HH:mm:ss.SSS"),
+        WEIRDASS_DATE_TIME_PATTER("yyyyMMddHH:mm:ss.S");
         /**
          * String representation of the pattern
          */
@@ -60,6 +67,12 @@ public class ProgressiveDateHandler implements ParameterHandler<Date> {
             }
         }
         return date;
+    }
+
+    @Override
+    public String toString(Date value) throws IllegalArgumentException {
+        return DateFormatUtils.format(value,
+                DatePattern.WEIRDASS_DATE_TIME_PATTER.pattern);
     }
 
 }

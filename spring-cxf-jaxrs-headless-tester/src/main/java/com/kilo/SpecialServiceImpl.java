@@ -37,7 +37,7 @@ public class SpecialServiceImpl implements SpecialService {
     @GET
     @Path("/someStrings/")
     @Override
-//    @Produces("application/xml")
+    @Produces("application/xml")
     public List<String> getSomeStrings() {
         List<String> strings = new ArrayList<>();
         strings.add("kilo");
@@ -53,6 +53,18 @@ public class SpecialServiceImpl implements SpecialService {
         strings.add("kilo");
         strings.add("kahn");
         strings.add(data);
+        return strings;
+    }
+
+    @GET
+    @Path("/getSomeStringsWithDateInput/")
+    @Override
+    public List<String> getSomeStringsWithDateInput(
+            @QueryParam("date") Date date) {
+        List<String> strings = new ArrayList<>();
+        strings.add("kilo");
+        strings.add("kahn");
+        strings.add(date.toString());
         return strings;
     }
 
@@ -115,6 +127,7 @@ public class SpecialServiceImpl implements SpecialService {
     @GET
     @Path("/getSomeComplexObjectsWithDateInput/")
     @Override
+    @Consumes("application/json")
     public List<SpecialObject> getSomeComplexObjectsWithDateInput(
             @QueryParam("ids") List<Integer> ids, @QueryParam("date") Date date) {
         List<SpecialObject> complexObjects = new ArrayList<>();

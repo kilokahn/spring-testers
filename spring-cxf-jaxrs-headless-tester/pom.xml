@@ -22,6 +22,12 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <filters>
             <filter>src/main/filters/filter.properties</filter>
         </filters>
@@ -158,6 +164,16 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.1_3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
         </dependency>
     </dependencies>
 </project>

@@ -49,7 +49,12 @@
     <bean id="jacksonMapper" class="org.codehaus.jackson.map.ObjectMapper">
         <property name="serializationConfig.dateFormat">
             <bean class="java.text.SimpleDateFormat">
-                <constructor-arg value="yyyy-MM-dd HH:mm:ss" />
+                <constructor-arg value="yyyyMMddHH:mm:ss.S" />
+            </bean>
+        </property>
+        <property name="deserializationConfig.dateFormat">
+            <bean class="java.text.SimpleDateFormat">
+                <constructor-arg value="yyyyMMddHH:mm:ss.S" />
             </bean>
         </property>
     </bean>

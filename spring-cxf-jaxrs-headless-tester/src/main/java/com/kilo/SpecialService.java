@@ -14,6 +14,8 @@ public interface SpecialService {
 
     List<String> getSomeStringsWithInput(String data);
 
+    List<String> getSomeStringsWithDateInput(Date data);
+
     List<String> getSomeStringsWithStringInputs(List<String> ids);
 
     List<Integer> getSomeStringsWithIntInputs(List<Integer> ids);
