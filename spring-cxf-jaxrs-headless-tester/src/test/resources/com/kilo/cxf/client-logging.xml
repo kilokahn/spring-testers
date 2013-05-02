@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass">
+            <value>org.springframework.util.Log4jConfigurer</value>
+        </property>
+        <property name="targetMethod">
+            <value>initLogging</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <value>classpath:com/kilo/cxf/spring-cxf-jaxrs-tester-client-log4j.xml</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
