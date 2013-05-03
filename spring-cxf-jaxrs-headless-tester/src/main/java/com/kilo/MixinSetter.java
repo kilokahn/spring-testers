@@ -16,6 +16,8 @@ public class MixinSetter implements BeanFactoryPostProcessor {
         // Add all mixin settings
         objectMapper.getSerializationConfig().addMixInAnnotations(
                 SpecialObject.class, SpecialObjectMixin.class);
+        objectMapper.getDeserializationConfig().addMixInAnnotations(
+                SpecialObject.class, SpecialObjectMixin.class);
     }
 
 }

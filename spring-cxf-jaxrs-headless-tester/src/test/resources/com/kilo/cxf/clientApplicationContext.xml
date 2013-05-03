@@ -7,21 +7,27 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
+    <bean id="mixinSetter" class="com.kilo.MixinSetter">
+    </bean>
+
     <bean id="inetAddress" class="java.net.InetAddress"
         factory-method="getLocalHost" />
 
     <jaxrs:client id="specialServiceClient" serviceClass="com.kilo.SpecialServiceImpl"
         address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
         <jaxrs:providers>
-            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
-                <property name="mapper" ref="jacksonMapper" />
-            </bean>
             <bean id="jaxbProvider"
                 class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
                 <property name="marshallAsJaxbElement" value="true" />
                 <property name="unmarshallAsJaxbElement" value="true" />
             </bean>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+                <property name="mapper" ref="jacksonMapper" />
+            </bean>
             <bean class="com.kilo.ProgressiveDateHandler" />
+            <!-- 
+            <bean class="com.kilo.SpecialObjectHandler" />
+             -->
         </jaxrs:providers>
     </jaxrs:client>
 

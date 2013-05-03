@@ -18,7 +18,7 @@ public interface SpecialService {
 
     List<String> getSomeStringsWithStringInputs(List<String> ids);
 
-    List<Integer> getSomeStringsWithIntInputs(List<Integer> ids);
+    List<Integer> getSomeIntsWithIntInputs(List<Integer> ids);
 
     List<SpecialObject> getSomeComplexObjectsWithIntInputs(List<Integer> ids);
 

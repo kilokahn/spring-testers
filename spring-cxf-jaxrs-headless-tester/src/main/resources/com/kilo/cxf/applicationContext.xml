@@ -34,11 +34,15 @@
             <bean id="jaxbProvider"
                 class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
                 <property name="marshallAsJaxbElement" value="true" />
+                <property name="unmarshallAsJaxbElement" value="true" />
             </bean>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
                 <property name="mapper" ref="jacksonMapper" />
             </bean>
             <bean class="com.kilo.ProgressiveDateHandler" />
+            <!-- 
+            <bean class="com.kilo.SpecialObjectHandler" />
+             -->
         </jaxrs:providers>
         <jaxrs:outInterceptors>
             <bean

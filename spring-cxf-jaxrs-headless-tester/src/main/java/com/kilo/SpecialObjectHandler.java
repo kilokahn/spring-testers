@@ -2,21 +2,19 @@
 package com.kilo;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.ParamConverterProvider;
+
 import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
-@JsonAutoDetect(getterVisibility = Visibility.NONE)
-public abstract class SpecialObjectMixin extends SpecialObject {
+public class SpecialObjectHandler implements ParamConverter<SpecialObject>,
+        ParamConverterProvider {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
     static {
@@ -34,31 +32,30 @@ public abstract class SpecialObjectMixin extends SpecialObject {
         objectMapper.setSerializationConfig(serializationConfigWithDateFormat);
     }
 
-    @JsonProperty
+    @SuppressWarnings("unchecked")
     @Override
-    public String getName() {
-        return super.getName();
-    }
-
-    @JsonProperty
-    @Override
-    public Date getDate() {
-        return super.getDate();
-    }
-
-    @JsonCreator
-    public SpecialObjectMixin(String json) throws JsonParseException,
-            JsonMappingException, IOException {
-        SpecialObject that = objectMapper.readValue(json, SpecialObject.class);
-        super.setName(that.getName());
-        super.setId(that.getId());
-        super.setDate(that.getDate());
+    public <T> ParamConverter<T> getConverter(Class<T> rawType,
+            Type genericType, Annotation[] annotations) {
+        if (rawType == SpecialObject.class) {
+            return (ParamConverter<T>) this;
+        }
+        return null;
     }
 
     @Override
-    public String toString() {
+    public SpecialObject fromString(String json) {
         try {
-            return objectMapper.writeValueAsString(this);
+            return objectMapper.readValue(json, SpecialObject.class);
+        } catch (IOException exception) {
+            throw new IllegalArgumentException("Unable to write JSON output",
+                    exception);
+        }
+    }
+
+    @Override
+    public String toString(SpecialObject value) throws IllegalArgumentException {
+        try {
+            return objectMapper.writeValueAsString(value);
         } catch (IOException exception) {
             throw new IllegalArgumentException("Unable to write JSON output",
                     exception);

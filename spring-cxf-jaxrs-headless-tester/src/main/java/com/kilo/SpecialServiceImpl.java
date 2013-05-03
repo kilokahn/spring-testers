@@ -21,21 +21,21 @@ import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 public class SpecialServiceImpl implements SpecialService {
 
     @GET
-    @Path("/someText/")
+    @Path("/getSomeText/")
     @Override
     public String getSomeText() {
         return "kilo";
     }
 
     @GET
-    @Path("/someInt/")
+    @Path("/getSomeInt/")
     @Override
     public Integer getSomeInt() {
         return 7;
     }
 
     @GET
-    @Path("/someStrings/")
+    @Path("/getSomeStrings/")
     @Override
     @Produces("application/xml")
     public List<String> getSomeStrings() {
@@ -46,7 +46,7 @@ public class SpecialServiceImpl implements SpecialService {
     }
 
     @GET
-    @Path("/someStringsWithInput/{data}/")
+    @Path("/getSomeStringsWithInput/{data}/")
     @Override
     public List<String> getSomeStringsWithInput(@PathParam("data") String data) {
         List<String> strings = new ArrayList<>();
@@ -69,7 +69,7 @@ public class SpecialServiceImpl implements SpecialService {
     }
 
     @GET
-    @Path("/someStringsWithStringInputs/")
+    @Path("/getSomeStringsWithStringInputs/")
     @Override
     public List<String> getSomeStringsWithStringInputs(
             @QueryParam("ids") List<String> ids) {
@@ -83,9 +83,9 @@ public class SpecialServiceImpl implements SpecialService {
     }
 
     @GET
-    @Path("/someIntsWithIntInputs/")
+    @Path("/getSomeIntsWithIntInputs/")
     @Override
-    public List<Integer> getSomeStringsWithIntInputs(
+    public List<Integer> getSomeIntsWithIntInputs(
             @QueryParam("ids") List<Integer> ids) {
         List<Integer> ints = new ArrayList<>();
         ints.add("kilo".hashCode());
@@ -97,7 +97,7 @@ public class SpecialServiceImpl implements SpecialService {
     }
 
     @GET
-    @Path("/someComplexObjectsWithIntInputs/")
+    @Path("/getSomeComplexObjectsWithIntInputs/")
     @Override
     public List<SpecialObject> getSomeComplexObjectsWithIntInputs(
             @QueryParam("ids") List<Integer> ids) {
@@ -112,7 +112,7 @@ public class SpecialServiceImpl implements SpecialService {
     }
 
     @GET
-    @Path("/someComplexObjectsWithMultipleInputs/")
+    @Path("/getSomeComplexObjectsWithMultipleInputs/")
     @Override
     public List<SpecialObject> getSomeComplexObjectsWithMultipleInputs(
             @QueryParam("name") String name, @QueryParam("value") Integer value) {

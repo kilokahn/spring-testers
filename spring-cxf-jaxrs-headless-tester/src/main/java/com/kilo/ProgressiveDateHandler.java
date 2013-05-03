@@ -1,22 +1,22 @@
 
 package com.kilo;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.Provider;
+import javax.ws.rs.ext.ParamConverterProvider;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.cxf.jaxrs.ext.ParameterHandler;
 
-@Provider
-public class ProgressiveDateHandler implements ParameterHandler<Date>,
-        ParamConverter<Date> {
+public class ProgressiveDateHandler implements ParamConverter<Date>,
+        ParamConverterProvider {
 
     private enum DatePattern {
         HYPHEN_DATE_PATTERN("yyyy-MM-dd"),
@@ -72,7 +72,17 @@ public class ProgressiveDateHandler implements ParameterHandler<Date>,
     @Override
     public String toString(Date value) throws IllegalArgumentException {
         return DateFormatUtils.format(value,
-                DatePattern.WEIRDASS_DATE_TIME_PATTER.pattern);
+                DatePattern.NODELIM_DATE_TIME_PATTERN.pattern);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> ParamConverter<T> getConverter(Class<T> rawType,
+            Type genericType, Annotation[] annotations) {
+        if (rawType == Date.class) {
+            return (ParamConverter<T>) this;
+        }
+        return null;
     }
 
 }

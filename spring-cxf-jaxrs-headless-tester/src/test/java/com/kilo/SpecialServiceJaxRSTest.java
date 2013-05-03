@@ -70,7 +70,7 @@ public class SpecialServiceJaxRSTest {
     public void testGetSomeStringsWithIntInputs() {
         List<Integer> intIds = Arrays.asList(1, 2);
         List<Integer> someStringsWithIntInputs = specialService
-                .getSomeStringsWithIntInputs(intIds);
+                .getSomeIntsWithIntInputs(intIds);
         LOG.info(someStringsWithIntInputs);
     }
 
@@ -104,7 +104,9 @@ public class SpecialServiceJaxRSTest {
     public void testGetSomeComplexObjectsWithComplexInput() {
         List<Integer> intIds = Arrays.asList(1, 2);
         Date date = new Date();
-        SpecialObject input = new SpecialObject();
+        String name = "bond";
+        Integer id = 7;
+        SpecialObject input = new SpecialObject(name, id, date);
         List<SpecialObject> someComplexObjectsWithComplexInput = specialService
                 .getSomeComplexObjectsWithComplexInput(intIds, date, input);
         LOG.info(someComplexObjectsWithComplexInput);
