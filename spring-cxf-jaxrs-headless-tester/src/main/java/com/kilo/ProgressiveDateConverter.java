@@ -1,22 +1,18 @@
 
 package com.kilo;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.ParamConverterProvider;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 
-public class ProgressiveDateHandler implements ParamConverter<Date>,
-        ParamConverterProvider {
+public class ProgressiveDateConverter implements ParamConverter<Date> {
 
     private enum DatePattern {
         HYPHEN_DATE_PATTERN("yyyy-MM-dd"),
@@ -28,7 +24,7 @@ public class ProgressiveDateHandler implements ParamConverter<Date>,
         SLASH_DATE_TIME_ZONE_PATTERN_US("MM/dd/yyyy HH:mm:ss z"),
         NODELIM_DATE_PATTERN("yyyyMMdd"),
         NODELIM_DATE_TIME_PATTERN("yyyyMMdd HH:mm:ss.SSS"),
-        WEIRDASS_DATE_TIME_PATTER("yyyyMMddHH:mm:ss.S");
+        WEIRDASS_DATE_TIME_PATTERN("yyyyMMddHH:mm:ss.S");
         /**
          * String representation of the pattern
          */
@@ -73,16 +69,6 @@ public class ProgressiveDateHandler implements ParamConverter<Date>,
     public String toString(Date value) throws IllegalArgumentException {
         return DateFormatUtils.format(value,
                 DatePattern.NODELIM_DATE_TIME_PATTERN.pattern);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> ParamConverter<T> getConverter(Class<T> rawType,
-            Type genericType, Annotation[] annotations) {
-        if (rawType == Date.class) {
-            return (ParamConverter<T>) this;
-        }
-        return null;
     }
 
 }

@@ -39,10 +39,7 @@
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
                 <property name="mapper" ref="jacksonMapper" />
             </bean>
-            <bean class="com.kilo.ProgressiveDateHandler" />
-            <!-- 
-            <bean class="com.kilo.SpecialObjectHandler" />
-             -->
+            <bean class="com.kilo.ApplicationParamConverterProvider" />
         </jaxrs:providers>
         <jaxrs:outInterceptors>
             <bean

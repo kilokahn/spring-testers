@@ -2,19 +2,15 @@
 package com.kilo;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 
 import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.ParamConverterProvider;
 
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
-public class SpecialObjectHandler implements ParamConverter<SpecialObject>,
-        ParamConverterProvider {
+public class SpecialObjectHandler implements ParamConverter<SpecialObject> {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
     static {
@@ -30,16 +26,6 @@ public class SpecialObjectHandler implements ParamConverter<SpecialObject>,
         SerializationConfig serializationConfigWithDateFormat = serializationConfig
                 .withDateFormat(new SimpleDateFormat("yyyyMMddHH:mm:ss.S"));
         objectMapper.setSerializationConfig(serializationConfigWithDateFormat);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> ParamConverter<T> getConverter(Class<T> rawType,
-            Type genericType, Annotation[] annotations) {
-        if (rawType == SpecialObject.class) {
-            return (ParamConverter<T>) this;
-        }
-        return null;
     }
 
     @Override
