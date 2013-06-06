@@ -6,27 +6,17 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
     <bean id="specialService" class="com.kilo.SpecialServiceImpl">
     </bean>
 
     <bean id="inetAddress" class="java.net.InetAddress"
         factory-method="getLocalHost" />
 
-    <bean id="corsFilter"
-        class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
-
-    <jaxrs:server id="specialServiceRS"
-        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
+    <jaxrs:server id="servicesRS" address="/">
         <jaxrs:serviceBeans>
             <ref bean="specialService" />
         </jaxrs:serviceBeans>
-        <jaxrs:providers>
-            <ref bean="corsFilter" />
-        </jaxrs:providers>
-        <jaxrs:outInterceptors>
-            <bean
-                class="org.apache.cxf.transport.common.gzip.GZIPOutInterceptor" />
-        </jaxrs:outInterceptors>
     </jaxrs:server>
 
 </beans>

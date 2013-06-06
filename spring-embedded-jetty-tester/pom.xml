@@ -35,6 +35,7 @@
     <properties>
         <spring.version>3.2.0.RELEASE</spring.version>
         <cxf.version>2.7.3</cxf.version>
+        <jetty.version>8.1.7.v20120910</jetty.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -103,6 +104,11 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-core</artifactId>
         </dependency>
@@ -121,22 +127,6 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jettison</groupId>
-            <artifactId>jettison</artifactId>
-            <version>1.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-            <version>1.9.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-xc</artifactId>
-            <version>1.9.9</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -165,14 +155,31 @@
             <version>2.1_3</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.samba.jcifs</groupId>
+            <artifactId>jcifs</artifactId>
+            <version>1.3.14-cname</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
