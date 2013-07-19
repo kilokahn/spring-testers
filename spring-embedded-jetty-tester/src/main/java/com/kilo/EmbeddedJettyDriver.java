@@ -1,6 +1,10 @@
 
 package com.kilo;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
@@ -20,19 +24,40 @@ public class EmbeddedJettyDriver {
         Integer portNumber = Integer.parseInt(args[0]);
         StopWatch sw = new StopWatch();
         sw.start();
-        LOG.info("Starting driver context load");
-        Server server = new Server(portNumber);
-        WebAppContext root = new WebAppContext();
-        root.setContextPath("/");
-        root.setWar("src/main/webapp");
 
+        Server server = new Server(portNumber);
+        File webappDir = findContainingFileName();
+        String contextPath = "/";
+        LOG.info(
+                "Attempting to start webapp located at {} at context path {} and port {}",
+                new Object[] { webappDir, contextPath, portNumber });
+        WebAppContext root = new WebAppContext(webappDir.getAbsolutePath(),
+                contextPath);
         server.setHandler(root);
+        server.start();
 
         sw.stop();
-        LOG.info("Done driver context load in " + sw.getLastTaskTimeMillis());
+        LOG.info("Server started in " + sw.getLastTaskTimeMillis());
 
-        server.start();
         server.join();
 
     }
+
+    /**
+     * When running exploded, this will return path to a directory like
+     * 'target/classes'. If running from jar, this will return the path to the
+     * jar/war
+     * 
+     * Borrowed from
+     * http://javajing.com/2012/08/03/executable-standalone-web-apps.html
+     * 
+     * @return path to wherever the class files exist
+     * @throws IOException
+     */
+    private static File findContainingFileName() throws IOException {
+        URL url = EmbeddedJettyDriver.class.getProtectionDomain()
+                .getCodeSource().getLocation();
+        return new File(url.getFile());
+    }
+
 }

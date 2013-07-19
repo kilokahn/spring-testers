@@ -26,7 +26,7 @@
         <filter-class>jcifs.http.NtlmHttpFilter</filter-class>
         <init-param>
             <param-name>jcifs.http.domainController</param-name>
-            <param-value>dchyd.hyd.deshaw.com</param-value>
+            <param-value>${jcifs.http.domainController}</param-value>
         </init-param>
     </filter>
 
