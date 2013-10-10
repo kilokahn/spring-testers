@@ -55,8 +55,19 @@
     <bean id="externalFibonacciService" class="com.kilo.external.ExternalFibonacciServiceImpl">
     </bean>
 
+    <!-- 30 minutes duration TTL concurrent map -->
+    <bean id="ttlAwareConcurrentMap" class="com.kilo.util.TTLAwareConcurrentMapFactoryBean">
+        <property name="duration" value="30" />
+        <property name="unit">
+            <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                <property name="staticField" value="java.util.concurrent.TimeUnit.MINUTES"/>
+            </bean>
+        </property>
+    </bean>
     <bean id="externalConcurrentMapFibonacci"
-        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" />
+        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" >
+        <property name="store" ref="ttlAwareConcurrentMap"/>
+    </bean>
     <bean id="externalConcurrentMapFibonacciCacheManager" 
         class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
