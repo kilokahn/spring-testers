@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jobRepository"
+        class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name="dataSource" ref="testerDataSource" />
+        <property name="transactionManager" ref="testerTransactionManager" />
+    </bean>
+    
+    <bean id="jobLauncher"
+        class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository" />
+    </bean>
+    
+    <bean id="ticketChangesReader" class="com.kilo.TicketChangesReader" scope="step">
+        <property name="tickets" value="#{stepExecutionContext[changes]}"/>
+    </bean>
+
+    <bean id="ticketProcessor" class="com.kilo.TicketProcessor" scope="step">
+    </bean>
+
+    <bean id="ticketWriter" class="com.kilo.TicketWriter" scope="step">
+        <property name="sourceCity" value="#{stepExecutionContext[sourceCity]}"/>
+    </bean>
+</beans>

@@ -1,7 +1,11 @@
 
 package com.kilo;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable {
+
+    private static final long serialVersionUID = -2864540503401616059L;
 
     private Integer cityId;
 

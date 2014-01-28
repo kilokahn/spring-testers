@@ -11,10 +11,17 @@ public class TicketWriter implements ItemWriter<Ticket> {
 
     private static Logger LOG = LoggerFactory.getLogger(TicketWriter.class);
 
+    private transient City sourceCity;
+
     @Override
     public void write(List<? extends Ticket> items) throws Exception {
-        LOG.info("Wrote tickets (" + items.size() + ")");
+        LOG.info("Wrote tickets (" + items.size() + ")" + " for city "
+                + sourceCity.getDescription());
         LOG.debug("Wrote tickets " + items);
+    }
+
+    public void setSourceCity(City sourceCity) {
+        this.sourceCity = sourceCity;
     }
 
 }

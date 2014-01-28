@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/jdbc 
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="testOnBorrow" value="true" />
+        <property name="maxActive" value="100" />
+        <property name="validationQuery">
+            <value>SELECT 1</value>
+        </property>
+        <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
+        <property name="url"
+            value="jdbc:jtds:sqlserver://DBDEVHYD1DS1:1433/sandbox;appName=${com.kilo.application.name}" />
+        <property name="username" value="guestuser" />
+        <property name="password" value="deshaw" />
+    </bean>
+
+    <bean id="testerTransactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+    <jdbc:initialize-database data-source="testerDataSource">
+        <jdbc:script location="org/springframework/batch/core/schema-drop-sqlserver.sql" />
+        <jdbc:script location="org/springframework/batch/core/schema-sqlserver.sql" />
+    </jdbc:initialize-database>
+
+</beans>

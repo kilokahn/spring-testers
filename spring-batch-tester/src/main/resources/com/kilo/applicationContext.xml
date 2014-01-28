@@ -4,5 +4,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
                         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <import resource="dataAccessContext.xml" />
+    <import resource="item-artifacts.xml" />
     <import resource="jobs.xml" />
 </beans>
