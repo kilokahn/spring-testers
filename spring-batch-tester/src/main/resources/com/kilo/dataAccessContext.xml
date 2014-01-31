@@ -15,9 +15,9 @@ xmlns:jdbc="http://www.springframework.org/schema/jdbc"
         </property>
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
         <property name="url"
-            value="jdbc:jtds:sqlserver://DBDEVHYD1DS1:1433/sandbox;appName=${com.kilo.application.name}" />
+            value="jdbc:jtds:sqlserver://DATASERVER:1433/sandbox;appName=${com.kilo.application.name}" />
         <property name="username" value="guestuser" />
-        <property name="password" value="deshaw" />
+        <property name="password" value="password" />
     </bean>
 
     <bean id="testerTransactionManager"
