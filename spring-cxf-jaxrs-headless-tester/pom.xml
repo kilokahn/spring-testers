@@ -9,10 +9,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -33,11 +33,23 @@
         </filters>
     </build>
     <properties>
-        <spring.version>3.2.0.RELEASE</spring.version>
-        <cxf.version>2.7.3</cxf.version>
+        <spring.version>4.0.4.RELEASE</spring.version>
+        <cxf.version>2.7.11</cxf.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-api</artifactId>
+                <version>${cxf.version}-20140519-custom</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-core</artifactId>
@@ -95,12 +107,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -163,17 +173,17 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>2.1_3</version>
+            <version>2.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>4.11</version>
         </dependency>
     </dependencies>
 </project>
