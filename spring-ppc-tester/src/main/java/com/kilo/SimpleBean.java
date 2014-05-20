@@ -19,12 +19,6 @@ package com.kilo;
 
 import org.apache.log4j.Logger;
 
-//@formatter:off
-/**
- * @author baigm
- * @version $Id: eclipse-codetemplates.xml 413456 2010-08-10 07:03:38Z baigm $
- */
-//@formatter:on
 public class SimpleBean {
 
     private static Logger LOG = Logger.getLogger(SimpleBean.class);
