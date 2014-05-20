@@ -1,0 +1,17 @@
+http://localhost:9343/specialServiceRS/getSomeText
+http://localhost:9343/specialServiceRS/getSomeInt
+http://localhost:9343/specialServiceRS/getSomeStrings
+http://localhost:9343/specialServiceRS/getSomeStringsWithInput/hello --PathParam
+http://localhost:9343/specialServiceRS/getSomeStringsWithDateInput?date=20130101 --date input serialization
+http://localhost:9343/specialServiceRS/getSomeStringsWithStringInputs?ids=abc&ids=def
+http://localhost:9343/specialServiceRS/getSomeIntsWithIntInputs?ids=3&ids=5
+http://localhost:9343/specialServiceRS/getSomeComplexObjectsWithIntInputs?ids=3&ids=5 -- date serialization
+http://localhost:9343/specialServiceRS/getSomeComplexObjectsWithMultipleInputs?name=bond&value=007
+http://localhost:9343/specialServiceRS/getSomeComplexObjectsWithDateInput?ids=3&ids=5&date=20130101 -- progressive date handler
+http://localhost:9343/specialServiceRS/getSomeComplexObjectsWithComplexInput?ids=3&ids=5&date=20130101&input={"name":"bond","date":"2013010100:00:00.0","id":7} --string constructor
+
+Mixins
+
+CORS
+
+GZIP filter
