@@ -3,7 +3,7 @@ package org.springframework.cache.interceptor;
 
 import java.lang.reflect.Method;
 
-public class MethodAwareCacheKeyGenerator extends DefaultKeyGenerator {
+public class MethodAwareCacheKeyGenerator extends SimpleKeyGenerator {
 
     /**
      * {@inheritDoc}
