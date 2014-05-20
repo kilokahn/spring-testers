@@ -9,7 +9,8 @@
                         http://www.springframework.org/schema/tx 
                         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven />
+
     <!-- EMBEDDED BROKER CONFIG -->
     <amq:broker persistent="true" useJmx="true" brokerName="embeddedBroker"
         id="embeddedBroker" tmpDataDirectory="/tmp/baigm/activemq-data">
@@ -39,7 +40,7 @@
         </property>
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
         <property name="url"
-            value="jdbc:jtds:sqlserver://DATASERVER1:1433/sandbox;sendStringParametersAsUnicode=false" />
+            value="jdbc:jtds:sqlserver://DATASERVER1:1433/sandbox;sendStringParametersAsUnicode=false;appName=testApp" />
         <property name="username" value="guestuser" />
         <property name="password" value="tiger" />
     </bean>
@@ -48,7 +49,7 @@
         <property name="dataSource" ref="testerDataSource" />
     </bean>
 
-    <bean id="transactionManager"
+    <bean id="testerTransactionManager"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="testerDataSource" />
     </bean>
