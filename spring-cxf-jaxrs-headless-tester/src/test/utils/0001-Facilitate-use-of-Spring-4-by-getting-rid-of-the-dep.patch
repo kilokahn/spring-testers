@@ -1,0 +1,29 @@
+From 9a31f94c1ec806a96c5a4dd351d8d5ba36dfc4dd Mon Sep 17 00:00:00 2001
+From: Mukarram Baig <mukarram.baig@gmail.com>
+Date: Mon, 19 May 2014 02:49:27 -0400
+Subject: [PATCH] Facilitate use of Spring 4 by getting rid of the deprecated
+ method usage that has since been removed
+
+---
+ .../configuration/spring/AbstractFactoryBeanDefinitionParser.java    | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/api/src/main/java/org/apache/cxf/configuration/spring/AbstractFactoryBeanDefinitionParser.java b/api/src/main/java/org/apache/cxf/configuration/spring/AbstractFactoryBeanDefinitionParser.java
+index 5fe3e00..b4210a9 100644
+--- a/api/src/main/java/org/apache/cxf/configuration/spring/AbstractFactoryBeanDefinitionParser.java
++++ b/api/src/main/java/org/apache/cxf/configuration/spring/AbstractFactoryBeanDefinitionParser.java
+@@ -132,8 +132,9 @@ public abstract class AbstractFactoryBeanDefinitionParser extends AbstractBeanDe
+         } else {
+             String factoryId = id + getFactoryIdSuffix();
+             ctx.getRegistry().registerBeanDefinition(factoryId, factoryBean.getBeanDefinition());
+-            bean.getBeanDefinition().setAttribute("id", id);
+-            bean.setFactoryBean(factoryId, "create");
++            bean.getRawBeanDefinition().setAttribute("id", id);
++            bean.getRawBeanDefinition().setFactoryBeanName(factoryId);
++            bean.getRawBeanDefinition().setFactoryMethodName("create");
+         }
+         if (getDestroyMethod() != null) {
+             bean.setDestroyMethodName(getDestroyMethod());
+-- 
+1.8.3.4
+
