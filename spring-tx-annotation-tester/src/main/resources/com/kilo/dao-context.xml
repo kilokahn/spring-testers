@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -11,7 +10,8 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:property-placeholder location="file:/tmp/credentials.properties" />
-    <tx:annotation-driven proxy-target-class="true" transaction-manager="holyCrapXATransactionManager"/>
+    <tx:annotation-driven proxy-target-class="true"
+        transaction-manager="holyCrapXATransactionManager" />
 
     <bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
@@ -27,8 +27,21 @@
         <property name="password" value="${tester.datasource2.password}" />
         <property name="testOnBorrow" value="true" />
     </bean>
-    
-    <bean id="holyCrapXATransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
+        init-method="init" destroy-method="close">
+        <property name="forceShutdown" value="false" />
+    </bean>
+
+    <!-- Using Atomikos UserTransactionImp, needed to configure Spring -->
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+        <property name="transactionTimeout" value="300" />
+    </bean>
+
+    <bean id="holyCrapXATransactionManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="atomikosTransactionManager" />
+        <property name="userTransaction" ref="atomikosUserTransaction" />
     </bean>
 
     <bean id="testerTransactionManager"
@@ -44,30 +57,31 @@
     </bean>
 
     <bean id="referenceDataDAO" class="com.kilo.service.dao.ReferenceDataDAO">
-        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+        <property name="sqlSessionTemplate" ref="testerSqlSessionTemplate" />
     </bean>
 
     <bean id="referenceDataDAO2" class="com.kilo.service.dao.ReferenceDataDAO">
-        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate2" />
+        <property name="sqlSessionTemplate" ref="testerSqlSessionTemplate2" />
     </bean>
 
-    <bean id="testerSqlMapClient"
-        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation"
-            value="classpath:com/kilo/ibatis/tester-sqlmap-config.xml" />
+    <bean id="testerSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="testerDataSource" />
-    </bean>
-    <bean id="testerSqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="testerSqlMapClient" />
+        <property name="configLocation" value="classpath:com/kilo/mybatis/tester-sqlmap-config.xml" />
+        <property name="mapperLocations" value="classpath:com/kilo/mybatis/mapper/*.xml" />
     </bean>
 
-    <bean id="testerSqlMapClient2"
-        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation"
-            value="classpath:com/kilo/ibatis/tester-sqlmap-config.xml" />
+    <bean id="testerSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="testerSqlSessionFactory" />
+    </bean>
+
+    <bean id="testerSqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="testerDataSource2" />
+        <property name="configLocation" value="classpath:com/kilo/mybatis/tester-sqlmap-config.xml" />
+        <property name="mapperLocations" value="classpath:com/kilo/mybatis/mapper/*.xml" />
     </bean>
-    <bean id="testerSqlMapClientTemplate2" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="testerSqlMapClient2" />
+
+    <bean id="testerSqlSessionTemplate2" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="testerSqlSessionFactory2" />
     </bean>
+
 </beans>
