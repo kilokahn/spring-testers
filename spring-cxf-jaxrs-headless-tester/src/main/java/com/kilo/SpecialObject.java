@@ -3,7 +3,7 @@ package com.kilo;
 
 import java.util.Date;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SpecialObject {
 

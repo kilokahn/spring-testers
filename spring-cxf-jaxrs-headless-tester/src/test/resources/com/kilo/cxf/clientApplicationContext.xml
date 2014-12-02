@@ -2,17 +2,37 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd        
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="mixinSetter" class="com.kilo.MixinSetter">
+    <util:map id="clazzMixinMap" key-type="java.lang.Class" value-type="java.lang.Class">
+        <entry key="com.kilo.SpecialObject" 
+            value="com.kilo.SpecialObjectMixin" />
+    </util:map>
+    <bean id="mixinSetter" class="com.kilo.ApplicationMixinSetter">
+        <property name="mixinClassMap" ref="clazzMixinMap"/>
     </bean>
 
     <bean id="inetAddress" class="java.net.InetAddress"
         factory-method="getLocalHost" />
 
+    <bean id="dateParamConverter" class="com.kilo.DateParamConverter" />
+    <bean id="specialObjectParamConverter" class="com.kilo.SpecialObjectParamConverter">
+        <property name="objectMapper" ref="jacksonMapper" />
+    </bean>
+    <bean id="appParamConverterProvider" class="com.kilo.RawTypeDrivenParamConverterProvider">
+        <property name="converterMap">
+            <util:map key-type="java.lang.Class">
+                <entry key="java.util.Date" value-ref="dateParamConverter" />
+                <entry key="com.kilo.SpecialObject"
+                    value-ref="specialObjectParamConverter" />
+            </util:map>
+        </property>
+    </bean>
     <jaxrs:client id="specialServiceClient" serviceClass="com.kilo.SpecialServiceImpl"
         address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
         <jaxrs:providers>
@@ -21,20 +41,15 @@
                 <property name="marshallAsJaxbElement" value="true" />
                 <property name="unmarshallAsJaxbElement" value="true" />
             </bean>
-            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
                 <property name="mapper" ref="jacksonMapper" />
             </bean>
-            <bean class="com.kilo.ApplicationParamConverterProvider" />
+            <ref bean="appParamConverterProvider"/>
         </jaxrs:providers>
     </jaxrs:client>
 
-    <bean id="jacksonMapper" class="org.codehaus.jackson.map.ObjectMapper">
-        <property name="serializationConfig.dateFormat">
-            <bean class="java.text.SimpleDateFormat">
-                <constructor-arg value="yyyyMMddHH:mm:ss.S" />
-            </bean>
-        </property>
-        <property name="deserializationConfig.dateFormat">
+    <bean id="jacksonMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+        <property name="dateFormat">
             <bean class="java.text.SimpleDateFormat">
                 <constructor-arg value="yyyyMMddHH:mm:ss.S" />
             </bean>
