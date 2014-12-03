@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.common.jaxrs;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;

@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kilo.domain.SpecialObject;
+import com.kilo.service.SpecialService;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
         "classpath:com/kilo/cxf/clientApplicationContext.xml",

@@ -10,30 +10,30 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <util:map id="clazzMixinMap" key-type="java.lang.Class" value-type="java.lang.Class">
-        <entry key="com.kilo.SpecialObject" 
-            value="com.kilo.SpecialObjectMixin" />
+        <entry key="com.kilo.domain.SpecialObject" 
+            value="com.kilo.domain.jaxrs.SpecialObjectMixin" />
     </util:map>
-    <bean id="mixinSetter" class="com.kilo.ApplicationMixinSetter">
+    <bean id="mixinSetter" class="com.kilo.common.jaxrs.ApplicationMixinSetter">
         <property name="mixinClassMap" ref="clazzMixinMap"/>
     </bean>
 
     <bean id="inetAddress" class="java.net.InetAddress"
         factory-method="getLocalHost" />
 
-    <bean id="dateParamConverter" class="com.kilo.DateParamConverter" />
-    <bean id="specialObjectParamConverter" class="com.kilo.SpecialObjectParamConverter">
+    <bean id="dateParamConverter" class="com.kilo.common.jaxrs.DateParamConverter" />
+    <bean id="specialObjectParamConverter" class="com.kilo.domain.jaxrs.SpecialObjectParamConverter">
         <property name="objectMapper" ref="jacksonMapper" />
     </bean>
-    <bean id="appParamConverterProvider" class="com.kilo.RawTypeDrivenParamConverterProvider">
+    <bean id="appParamConverterProvider" class="com.kilo.common.jaxrs.RawTypeDrivenParamConverterProvider">
         <property name="converterMap">
             <util:map key-type="java.lang.Class">
                 <entry key="java.util.Date" value-ref="dateParamConverter" />
-                <entry key="com.kilo.SpecialObject"
+                <entry key="com.kilo.domain.SpecialObject"
                     value-ref="specialObjectParamConverter" />
             </util:map>
         </property>
     </bean>
-    <jaxrs:client id="specialServiceClient" serviceClass="com.kilo.SpecialServiceImpl"
+    <jaxrs:client id="specialServiceClient" serviceClass="com.kilo.service.SpecialServiceImpl"
         address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
         <jaxrs:providers>
             <bean id="jaxbProvider"

@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.domain;
 
 import java.util.Date;
 

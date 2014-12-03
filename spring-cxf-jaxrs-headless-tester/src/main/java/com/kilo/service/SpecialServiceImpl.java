@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+
+import com.kilo.domain.SpecialObject;
 
 @Produces("application/json")
 @CrossOriginResourceSharing(allowAllOrigins = true, allowCredentials = true, maxAge = 6000, allowHeaders = {

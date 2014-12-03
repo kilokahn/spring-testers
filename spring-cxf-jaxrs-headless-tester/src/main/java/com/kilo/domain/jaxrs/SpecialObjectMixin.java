@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.domain.jaxrs;
 
 import java.util.Date;
 

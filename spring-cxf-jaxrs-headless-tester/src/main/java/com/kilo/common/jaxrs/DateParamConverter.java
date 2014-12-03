@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.common.jaxrs;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -8,11 +8,15 @@ import java.util.Map;
 
 import javax.ws.rs.ext.ParamConverter;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ProgressiveDateConverter implements ParamConverter<Date> {
+public class DateParamConverter implements ParamConverter<Date> {
+
+    private static final Logger LOG = LoggerFactory
+            .getLogger(DateParamConverter.class);
 
     private enum DatePattern {
         HYPHEN_DATE_PATTERN("yyyy-MM-dd"),
@@ -25,9 +29,7 @@ public class ProgressiveDateConverter implements ParamConverter<Date> {
         NODELIM_DATE_PATTERN("yyyyMMdd"),
         NODELIM_DATE_TIME_PATTERN("yyyyMMdd HH:mm:ss.SSS"),
         WEIRDASS_DATE_TIME_PATTERN("yyyyMMddHH:mm:ss.S");
-        /**
-         * String representation of the pattern
-         */
+
         private String pattern;
 
         private DatePattern(String pattern) {
@@ -49,25 +51,19 @@ public class ProgressiveDateConverter implements ParamConverter<Date> {
     }
 
     @Override
-    public Date fromString(String dateStr) {
-
-        Date date = null;
-
-        if (StringUtils.isNotBlank(dateStr)) {
-            try {
-                date = DateUtils.parseDateStrictly(dateStr,
-                        DatePattern.getPatterns());
-            } catch (ParseException exception) {
-                throw new IllegalArgumentException("Unable to handle date "
-                        + dateStr, exception);
-            }
+    public Date fromString(String dateString) {
+        try {
+            return DateUtils.parseDateStrictly(dateString,
+                    DatePattern.getPatterns());
+        } catch (ParseException exception) {
+            LOG.warn("Unable to handle date " + dateString);
         }
-        return date;
+        return null;
     }
 
     @Override
-    public String toString(Date value) throws IllegalArgumentException {
-        return DateFormatUtils.format(value,
+    public String toString(Date date) throws IllegalArgumentException {
+        return DateFormatUtils.format(date,
                 DatePattern.NODELIM_DATE_TIME_PATTERN.pattern);
     }
 

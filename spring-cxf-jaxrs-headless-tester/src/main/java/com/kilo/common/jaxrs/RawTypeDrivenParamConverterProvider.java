@@ -1,5 +1,5 @@
 
-package com.kilo;
+package com.kilo.common.jaxrs;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

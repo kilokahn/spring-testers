@@ -1,8 +1,10 @@
 
-package com.kilo;
+package com.kilo.service;
 
 import java.util.Date;
 import java.util.List;
+
+import com.kilo.domain.SpecialObject;
 
 public interface SpecialService {
 
