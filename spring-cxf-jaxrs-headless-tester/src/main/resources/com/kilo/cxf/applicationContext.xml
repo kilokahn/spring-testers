@@ -12,13 +12,17 @@
     <util:map id="clazzMixinMap" key-type="java.lang.Class" value-type="java.lang.Class">
         <entry key="com.kilo.domain.SpecialObject" 
             value="com.kilo.domain.jaxrs.SpecialObjectMixin" />
+        <entry key="com.kilo.domain.SomeObject" 
+            value="com.kilo.domain.jaxrs.SomeObjectMixin" />
+        <entry key="com.kilo.domain.SomeOtherObject" 
+            value="com.kilo.domain.jaxrs.SomeOtherObjectMixin" />
     </util:map>
     <bean id="mixinSetter" class="com.kilo.common.jaxrs.ApplicationMixinSetter">
         <property name="mixinClassMap" ref="clazzMixinMap"/>
     </bean>
 
-    <bean id="specialService" class="com.kilo.service.SpecialServiceImpl">
-    </bean>
+    <bean id="specialService" class="com.kilo.service.SpecialServiceImpl" />
+    <bean id="someService" class="com.kilo.service.SomeServiceImpl" />
 
     <bean id="inetAddress" class="java.net.InetAddress"
         factory-method="getLocalHost" />
@@ -39,10 +43,11 @@
             </util:map>
         </property>
     </bean>
-    <jaxrs:server id="specialServiceRS"
-        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
+    <jaxrs:server id="headlessServiceRS"
+        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/headlessServiceRS">
         <jaxrs:serviceBeans>
             <ref bean="specialService" />
+            <ref bean="someService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="corsFilter" />

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs-client"
     xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd        
+        http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd        
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <util:map id="clazzMixinMap" key-type="java.lang.Class" value-type="java.lang.Class">
         <entry key="com.kilo.domain.SpecialObject" 
             value="com.kilo.domain.jaxrs.SpecialObjectMixin" />
+        <entry key="com.kilo.domain.SomeObject" 
+            value="com.kilo.domain.jaxrs.SomeObjectMixin" />
     </util:map>
     <bean id="mixinSetter" class="com.kilo.common.jaxrs.ApplicationMixinSetter">
         <property name="mixinClassMap" ref="clazzMixinMap"/>
@@ -33,17 +35,29 @@
             </util:map>
         </property>
     </bean>
+    <bean id="jaxbProvider"
+        class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
+        <property name="marshallAsJaxbElement" value="true" />
+        <property name="unmarshallAsJaxbElement" value="true" />
+    </bean>
+    <bean id="jacksonJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+        <property name="mapper" ref="jacksonMapper" />
+    </bean>
+
     <jaxrs:client id="specialServiceClient" serviceClass="com.kilo.service.SpecialServiceImpl"
-        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/specialServiceRS">
+        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/headlessServiceRS">
         <jaxrs:providers>
-            <bean id="jaxbProvider"
-                class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
-                <property name="marshallAsJaxbElement" value="true" />
-                <property name="unmarshallAsJaxbElement" value="true" />
-            </bean>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
-                <property name="mapper" ref="jacksonMapper" />
-            </bean>
+            <ref bean="jaxbProvider"/>
+            <ref bean="jacksonJsonProvider"/>
+            <ref bean="appParamConverterProvider"/>
+        </jaxrs:providers>
+    </jaxrs:client>
+
+    <jaxrs:client id="someServiceClient" serviceClass="com.kilo.service.SomeServiceImpl"
+        address="http://#{inetAddress.hostName}:${com.kilo.restful.port}/headlessServiceRS">
+        <jaxrs:providers>
+            <ref bean="jaxbProvider"/>
+            <ref bean="jacksonJsonProvider"/>
             <ref bean="appParamConverterProvider"/>
         </jaxrs:providers>
     </jaxrs:client>

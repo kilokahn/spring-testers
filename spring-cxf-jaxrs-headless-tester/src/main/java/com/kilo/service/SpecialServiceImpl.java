@@ -20,6 +20,7 @@ import com.kilo.domain.SpecialObject;
 @CrossOriginResourceSharing(allowAllOrigins = true, allowCredentials = true, maxAge = 6000, allowHeaders = {
         "Content-Type", "X-Requested-With" }, exposeHeaders = { "Content-Type",
         "X-Requested-With" })
+@Path("specialService")
 public class SpecialServiceImpl implements SpecialService {
 
     @GET
