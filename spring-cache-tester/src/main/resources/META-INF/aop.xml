@@ -1,0 +1,9 @@
+<!DOCTYPE aspectj PUBLIC
+        "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<!-- Uncomment this when you wish to use this
+<aspectj>
+	<aspects>
+		<aspect name="com.kilo.driver.LoggingAspect" />
+	</aspects>
+</aspectj>
+ -->

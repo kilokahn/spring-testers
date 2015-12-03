@@ -1,0 +1,1 @@
+-javaagent:/path/to/repository/org/springframework/spring-instrument/4.0.4.RELEASE/spring-instrument-4.0.4.RELEASE.jar -XX:-UseSplitVerifier -Dorg.aspectj.weaver.Dump.exception=false
