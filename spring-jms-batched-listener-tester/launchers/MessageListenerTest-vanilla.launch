@@ -12,5 +12,5 @@
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.kilo.MessageListenerTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="spring-jms-batched-listener-tester"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=vanilla"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=vanilla -Dcom.kilo.jms.broker.url=tcp://localhost:53231"/>
 </launchConfiguration>

@@ -3,6 +3,15 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'com.kilo.driver.SpringJMSBatchedDriver'
+applicationDefaultJvmArgs = ["-Duser.timezone=GMT", "-d64", "-Dlog4j.configuration=com/kilo/spring-jms-tester-log4j.xml"]
+ext {
+    customJvmArgs ='-d64'
+    customSystemProperties = ['spring.profiles.active':'non-vanilla',
+                              'com.kilo.jms.broker.url':'tcp://localhost:53231',
+                              'log4j.configuration':'com/kilo/spring-jms-tester-log4j.xml']
+}
 
 group = "com.kilo"
 version = "1.0-SNAPSHOT"
@@ -35,4 +44,9 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test'
+}
+
+test {
+    jvmArgs(customJvmArgs)
+    systemProperties(customSystemProperties)
 }
