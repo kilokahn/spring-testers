@@ -3,6 +3,8 @@
 ### On command line
 
 #### Run the message publisher piece
+With an initial delay of 10 seconds, at a fixed delay of 30 seconds, 10 messages are published to the destination. This goes on for a hour by default. Also note the port number on which embedded broker is started. Since we have enabled JMX, you can use your favorite MBeans browser to check the queue sizes and browse messages.
+
     ./gradlew run
 
 #### Run the message consumer piece
