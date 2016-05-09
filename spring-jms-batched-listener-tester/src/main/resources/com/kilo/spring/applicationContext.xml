@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://activemq.apache.org/schema/core 
+                        http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <amq:broker useJmx="true" persistent="false" useShutdownHook="false">
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:0" />
+        </amq:transportConnectors>
+    </amq:broker>
+ 
+    <amq:connectionFactory id="jmsFactory" brokerURL="vm://localhost"/>
+  
+    <amq:queue physicalName="testQueue" id="testQueue"/>
+    <bean id="pooledJmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+        destroy-method="stop">
+        <property name="connectionFactory" ref="jmsFactory" />
+    </bean>
+
+    <bean id="testJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="pooledJmsFactory"/>
+        <property name="defaultDestination" ref="testQueue"/>
+    </bean>
+</beans>

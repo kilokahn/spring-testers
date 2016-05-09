@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://activemq.apache.org/schema/core 
+                        http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <amq:connectionFactory id="jmsFactory" brokerURL="tcp://localhost:43276"/>
+  
+    <amq:queue physicalName="testQueue" id="testQueue"/>
+    <bean id="pooledJmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+        destroy-method="stop">
+        <property name="connectionFactory" ref="jmsFactory" />
+    </bean>
+
+    <bean id="testMessageListener" class="com.kilo.TestMessageListener" />
+    <beans profile="vanilla"> 
+    <bean id="testMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="messageListener" ref="testMessageListener" />
+        <property name="clientId" value="testMessageListenerContainer" />
+        <property name="connectionFactory" ref="pooledJmsFactory" />
+        <property name="destination" ref="testQueue" />
+    </bean>
+    </beans>
+    <beans profile="non-vanilla"> 
+    <bean id="testMessageListenerContainer" class="com.kilo.BatchMessageListenerContainer">
+        <property name="batchSize" value="23" />
+        <property name="messageListener" ref="testMessageListener" />
+        <property name="clientId" value="testMessageListenerContainer" />
+        <property name="connectionFactory" ref="pooledJmsFactory" />
+        <property name="destination" ref="testQueue" />
+        <property name="sessionTransacted" value="true"/>
+        <property name="receiveTimeout" value="60000"/>
+    </bean>
+    </beans>
+</beans>
